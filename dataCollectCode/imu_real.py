@@ -88,22 +88,6 @@ def Serial():
             data_rec = data_split[-1]
 
 
-                # 测试一轴的同步性就行
-
-                # pattern = re.compile(r"[+-]?\d+(?:\.\d+)?")   # find the num
-                # data_all = pattern.findall(data_get)
-                # print(data_all)
-
-                # # save data
-                # data_real = []
-                # # time
-                # dt = datetime.today()
-                # data_real.append(str(dt.hour).zfill(2) +':'+str(dt.minute).zfill(2)+':'+str(dt.second).zfill(2)+'.'+str(dt.microsecond//1000).zfill(3))
-                # # left imu
-                # [data_real.append(float(data_split[j])) for j in range(1,19)]
-                # print("data save: ", data_real)
-                # write_csv(data_real)
-
 
 def plotData():
     global i

@@ -188,16 +188,6 @@ def main():
     time_data = pd.read_csv(time_csv_path)
     time_data = time_data.values
 
-    # imu_t = 0
-    # while imu_data[imu_t,0] < time_data[0][1]:
-    #     imu_t += 1
-    # start_time = imu_t
-    # while imu_data[imu_t] < time_data[0][2]:
-    #     imu_t += 1
-    # end_time = imu_t
-
-    # x = np.arange(0,end_time - start_time)
-
 
     imu_data = imu_data[:,2:]
     imu_data[:,0:6] = unit_conversion(imu_data[:,0:6])
@@ -205,10 +195,7 @@ def main():
     imu_data[:,12:18] = unit_conversion(imu_data[:,12:18])
     mapping_uniform(imu_data)
 
-    # mapping
 
-
-    # after
     
 
 if __name__ == "__main__":

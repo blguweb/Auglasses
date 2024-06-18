@@ -26,10 +26,10 @@ ex_texts = ["静止","开心","难过","害怕","生气","惊喜","厌恶"]
 
 end_texts = "结束动作"
 start_record = False
-# AU_pre_texts = ["下一回合内部眉毛抬起AU1","下一回合是外部眉毛抬起AU2","下一回合是皱眉AU4","下一回合是抬上眼皮AU5","下一回合是抬起脸颊AU6",\
-#                 "下一回合是眼睛收缩AU7","下一回合是收缩抬起鼻子AU9","下一回合是抬起上嘴唇AU10","下一回合是上扬嘴角AU12","下一回合是形成酒窝AU14",\
-#                     "下一回合是嘴角垂直拉动AU15","下一回合是挤动下唇向上拉动AU17","下一回合是嘴唇向后拉扯AU20","下一回合是收紧双唇成一线AU24",\
-                        # "下一回合是微微张开嘴巴AU25","下一回合是张大嘴巴AU26","下一回合是双目眨眼AU45"]
+AU_pre_texts = ["下一回合内部眉毛抬起AU1","下一回合是外部眉毛抬起AU2","下一回合是皱眉AU4","下一回合是抬上眼皮AU5","下一回合是抬起脸颊AU6",\
+                "下一回合是眼睛收缩AU7","下一回合是收缩抬起鼻子AU9","下一回合是抬起上嘴唇AU10","下一回合是上扬嘴角AU12","下一回合是形成酒窝AU14",\
+                    "下一回合是嘴角垂直拉动AU15","下一回合是挤动下唇向上拉动AU17","下一回合是嘴唇向后拉扯AU20","下一回合是收紧双唇成一线AU24",\
+                        "下一回合是微微张开嘴巴AU25","下一回合是张大嘴巴AU26","下一回合是双目眨眼AU45"]
 AU_texts = ["眉毛抬起","皱眉","瞪大眼睛",\
                 "眼睛收缩","收缩抬起鼻子","抬起脸颊上扬嘴角",\
                     "挤动下唇向上拉动","嘴唇向后拉扯","收紧双唇成一线",\
@@ -50,21 +50,9 @@ def st_write_csv(data_row):
         csv_write = csv.writer(f)
         csv_write.writerow(data_row)
 
-# def funcLeft(event):
-#     global start_record
-#     if (event.MessageName != "mouse move"):  # 因为鼠标一动就会有很多mouse move，所以把这个过滤下
-#         start_record = True
-#         hm.UnhookMouse()
-#     return True
-
-# def funcRight(event):
-#     global start_record
-#     if (event.MessageName != "mouse move"):  # 因为鼠标一动就会有很多mouse move，所以把这个过滤下
-#         start_record = False
-#         hm.UnhookMouse()
-#     return True
         
 def pre_collect():
+    # collect the data of pre emotion of the experiment
     global start_record
     engine = pyttsx3.init()
     engine.say(title_texts)
@@ -99,6 +87,7 @@ def pre_collect():
     st_write_csv(index_list)
 
 def exCollect():
+    # 声音播报表情，然后等待四秒，继续播报下一个表情；表情每一个epoch会被打乱顺序
     engine = pyttsx3.init()
     engine.say(title_texts)
     engine.runAndWait()
@@ -133,12 +122,10 @@ def exCollect():
         print("第"+str(i+1)+"次实验结束")
 
 def auCollect():
+    # 声音播报AU，然后等待四秒，继续播报下一个AU；AU每一个epoch会被打乱顺序
     engine = pyttsx3.init()
     engine.say(title_texts)
     engine.runAndWait()
-
-
-    # 每个表情5分钟
 
     for i in range(epoch):
         shuffled_indices = np.random.permutation(len(AU_texts))
@@ -168,7 +155,7 @@ def auCollect():
         print("第"+str(i+1)+"次实验结束")
 
 
-
+# old version:unused
 def ex_collect():
     global start_record
     engine = pyttsx3.init()
@@ -203,7 +190,7 @@ def ex_collect():
         write_csv(save_list)
     st_write_csv(index_list)
 
-
+# old version:unused
 def AU_collect():
     engine = pyttsx3.init()
     engine.say(calibration_tests)
@@ -244,6 +231,7 @@ def AU_collect():
         engine.say(end_texts)
         engine.runAndWait()
 
+# old version:unused
 def natural_emotion():
     picture_text = "开始观看图片！"
     picture_text_end = "观看结束！"
@@ -290,12 +278,6 @@ if __name__ == "__main__":
         ex_per = sys.argv[1]
         
         index_csv_path = "./dataCollection/index_"+ ex_per +".csv"
-        # hm = pyHook.HookManager()
-        # # 监听鼠标
-        # # hm.MouseLeftDown 是将“鼠标左键按下”这一事件和func这个函数绑定，即每次鼠标左键按下都会执行func
-        # # 如果希望监测鼠标中键按下则：hm.MouseMiddleDown，鼠标右键按下则：hm.MouseRightDown
-        # hm.MouseLeftDown = funcLeft  # 监测鼠标左键是否按下
-        # hm.MouseRightDown = funcRight  # 监测鼠标左键是否按下
         if sys.argv[2] == 'au':
             csv_path = "./dataCollection/time_"+ ex_per +".csv"
             auCollect()
